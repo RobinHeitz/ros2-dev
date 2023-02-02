@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rv7fm">
+  <xacro:arg name="use_sim" default="false" />
+
+  <!-- Enable setting arguments from the launch file -->
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="fake_sensor_commands" default="false" />
+  <xacro:arg name="prefix" default="" /> <!-- Name of this rv7fm -->
+  <xacro:arg name="slowdown" default="2.0" />
+  <xacro:arg name="robot_ip" default="127.0.0.1" />
+
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0" />
+  </material>
+
+  <material name="transparent">
+    <color rgba="0.5 0.5 0.5 0.5" />
+  </material>
+
+  <xacro:arg name="hand" default="true" />
+
+  <xacro:include filename="$(find rv7fm_description)/urdf/rv7fm.xacro" />
+  <xacro:include filename="$(find rv7fm_description)/urdf/hand.xacro" />
+  
+  <!-- Import RV7FM ros2_control description -->
+  <xacro:include filename="$(find rv7fm_description)/ros2_control/rv7fm_system_position_only.ros2_control.xacro" />
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.9445" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/cell_assembly.stl" />
+      </geometry>
+      <material name="transparent" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.9445" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/cell_assembly.stl" />
+      </geometry>
+      <material name="transparent" />
+    </collision>
+  </link>
+
+  <!-- left arm with gripper -->
+  <xacro:rv7fm arm_id="$(arg prefix)" connected_to="base_link" xyz="0 0 0.9445" safety_distance="0.03" />
+  <xacro:hand ns="$(arg prefix)" rpy="0 0 0" connected_to="$(arg prefix)_link6" safety_distance="0.03" />
+
+  <xacro:rv7fm_system_position_only 
+    name="RV7FMSystemPositionOnly" 
+    prefix="$(arg prefix)" 
+    use_fake_hardware="$(arg use_fake_hardware)" 
+    fake_sensor_commands="$(arg fake_sensor_commands)" 
+    slowdown="$(arg slowdown)" 
+    robot_ip="$(arg robot_ip)"/>
+
+</robot>

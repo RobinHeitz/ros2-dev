@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2021, Laboratory for Machine Tools and Production Engineering WZL -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="rv7fm" params="arm_id description_pkg:='rv7fm_description' connected_to:=^|'' xyz:=^|'0 0 0' rpy:=^|'0 0 0' safety_distance:=^|0">
+    <xacro:unless value="${not connected_to}">
+      <joint name="${arm_id}_joint_${connected_to}" type="fixed">
+        <parent link="${connected_to}" />
+        <child link="${arm_id}_link0" />
+        <origin rpy="${rpy}" xyz="${xyz}" />
+      </joint>
+    </xacro:unless>
+    <link name="${arm_id}_link0">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/L0.stl" />
+        </geometry>
+        <material name="white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/L0.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${arm_id}_joint1" type="revolute">
+      <parent link="${arm_id}_link0" />
+      <child link="${arm_id}_link1" />
+      <origin xyz="0 0 0.4" rpy="0 0 0" />
+      <axis xyz="0 0 1" />
+      <dynamics damping="0.7" />
+      <limit upper="${240*pi/180}" lower="${-240*pi/180}" effort="10" velocity="${360*pi*0.1/180}" />
+    </joint>
+
+    <link name="${arm_id}_link1">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/L1.stl" />
+        </geometry>
+        <material name="white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/L1.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${arm_id}_joint2" type="revolute">
+      <parent link="${arm_id}_link1" />
+      <child link="${arm_id}_link2" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+      <dynamics damping="0.7" />
+      <limit upper="${125*pi/180}" lower="${-115*pi/180}" effort="10" velocity="${401*pi*0.1/180}" />
+    </joint>
+
+    <link name="${arm_id}_link2">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/L2.stl" />
+        </geometry>
+        <material name="white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/L2.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${arm_id}_joint3" type="revolute">
+      <parent link="${arm_id}_link2" />
+      <child link="${arm_id}_link3" />
+      <origin xyz="0 0 0.340" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+      <dynamics damping="0.7" />
+      <limit upper="${156*pi/180}" lower="0.00" effort="10" velocity="${450*pi*0.05/180}" />
+    </joint>
+
+    <link name="${arm_id}_link3">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/L3.stl" />
+        </geometry>
+        <material name="white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/L3.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${arm_id}_joint4" type="revolute">
+      <parent link="${arm_id}_link3" />
+      <child link="${arm_id}_link4" />
+      <origin xyz="-0.05 0 0.37" rpy="0 0 0" />
+      <axis xyz="0 0 1" />
+      <dynamics damping="0.7" />
+      <limit upper="${200*pi/180}" lower="${-200*pi/180}" effort="10" velocity="${337*pi*0.1/180}" />
+    </joint>
+
+    <link name="${arm_id}_link4">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/L4.stl" />
+        </geometry>
+        <material name="white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/L4.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${arm_id}_joint5" type="revolute">
+      <parent link="${arm_id}_link4" />
+      <child link="${arm_id}_link5" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+      <dynamics damping="0.7" />
+      <limit upper="${120*pi/180}" lower="${-120*pi/180}" effort="10" velocity="${450*pi*0.05/180}" />
+    </joint>
+
+    <link name="${arm_id}_link5">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/L5.stl" />
+        </geometry>
+        <material name="white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/L5.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${arm_id}_joint6" type="revolute">
+      <parent link="${arm_id}_link5" />
+      <child link="${arm_id}_link6" />
+      <origin xyz="0 0 0.085" rpy="0 0 0" />
+      <axis xyz="0 0 1" />
+      <dynamics damping="0.7" />
+      <limit upper="${185*pi/180}" lower="${-185*pi/180}" effort="10" velocity="${720*pi*0.01/180}" />
+    </joint>
+
+    <link name="${arm_id}_link6">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/L6.stl" />
+        </geometry>
+        <material name="white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/L6.stl" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+</robot>

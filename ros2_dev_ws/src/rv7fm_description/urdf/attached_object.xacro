@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="attached_object">
+  <!-- safety_distance: Minimum safety distance in [m] by which the collision volumes are expanded and which is enforced during robot motions -->
+  <xacro:macro name="attached_object" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0' safety_distance:=0">
+    <xacro:unless value="${connected_to == ''}">
+      <joint name="${ns}_attached_gripper_joint" type="fixed">
+        <parent link="${connected_to}" />
+        <child link="${ns}_object" />
+        <origin xyz="${xyz}" rpy="${rpy}" />
+      </joint>
+    </xacro:unless>
+    <link name="${ns}_object">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <box size="0.5 0.1 0.02" />
+        </geometry>
+        <material name="white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <box size="0.5 0.1 0.02" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+</robot>

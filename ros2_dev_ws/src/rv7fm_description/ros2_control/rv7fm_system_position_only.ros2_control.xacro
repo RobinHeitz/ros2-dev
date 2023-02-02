@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="rv7fm_system_position_only" params="name prefix use_sim:=^|false use_fake_hardware:=^|true fake_sensor_commands:=^|false slowdown:=^|2.0 robot_ip:=^|127.0.0.1">
+
+    <ros2_control name="${name}" type="system">
+
+      <xacro:if value="$(arg use_sim)">
+        <hardware>
+          <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        </hardware>
+      </xacro:if>
+      <xacro:unless value="$(arg use_sim)">
+        <hardware>
+          <xacro:if value="${use_fake_hardware}">
+            <plugin>fake_components/GenericSystem</plugin>
+            <param name="fake_sensor_commands">${fake_sensor_commands}</param>
+            <param name="state_following_offset">0.0</param>
+          </xacro:if>
+          <xacro:unless value="${use_fake_hardware}">
+            <plugin>ros2_control_demo_hardware/Rv7fmSystemPositionOnlyHardware</plugin>
+            <param name="example_param_hw_start_duration_sec">2.0</param>
+            <param name="example_param_hw_stop_duration_sec">3.0</param>
+            <param name="example_param_hw_slowdown">${slowdown}</param>
+            <param name="robot_ip">${robot_ip}</param>
+          </xacro:unless>
+        </hardware>
+      </xacro:unless>
+
+      <joint name="${prefix}_joint1">
+        <command_interface name="position">
+          <param name="min">${-240*pi/180}</param>
+          <param name="max">${240*pi/180}</param>
+        </command_interface>
+        <state_interface name="position" />
+        <param name="initial_position">0.0</param>
+      </joint>
+      <joint name="${prefix}_joint2">
+        <command_interface name="position">
+          <param name="min">${-115*pi/180}</param>
+          <param name="max">${125*pi/180}</param>
+        </command_interface>
+        <state_interface name="position" />
+        <param name="initial_position">0.0</param>
+      </joint>
+      <joint name="${prefix}_joint3">
+        <command_interface name="position">
+          <param name="min">0.0</param>
+          <param name="max">${156*pi/180}</param>
+        </command_interface>
+        <state_interface name="position" />
+        <param name="initial_position">1.5708</param>
+      </joint>
+      <joint name="${prefix}_joint4">
+        <command_interface name="position">
+          <param name="min">${-200*pi/180}</param>
+          <param name="max">${200*pi/180}</param>
+        </command_interface>
+        <state_interface name="position" />
+        <param name="initial_position">0.0</param>
+      </joint>
+      <joint name="${prefix}_joint5">
+        <command_interface name="position">
+          <param name="min">${-120*pi/180}</param>
+          <param name="max">${120*pi/180}</param>
+        </command_interface>
+        <state_interface name="position" />
+        <param name="initial_position">1.5708</param>
+      </joint>
+      <joint name="${prefix}_joint6">
+        <command_interface name="position">
+          <param name="min">${-360*pi/180}</param>
+          <param name="max">${360*pi/180}</param>
+        </command_interface>
+        <state_interface name="position" />
+        <param name="initial_position">0.0</param>
+      </joint>
+    </ros2_control>
+
+  </xacro:macro>
+
+</robot>

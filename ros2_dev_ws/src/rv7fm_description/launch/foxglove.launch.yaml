@@ -1,0 +1,7 @@
+launch:
+
+- node:
+  pkg: "joint_state_publisher"
+  exec: "joint_state_publisher"
+  name: "joint_publisher"
+  namespace: "joint_state_namespace"

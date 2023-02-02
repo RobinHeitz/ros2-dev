@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rv7fm">
+  <xacro:arg name="use_sim" default="false" />
+
+  <!-- Enable setting arguments from the launch file -->
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="fake_sensor_commands" default="false" />
+  <xacro:arg name="prefix_1" default="melfa_1" /> <!-- Name of this rv7fm -->
+  <xacro:arg name="prefix_2" default="melfa_2" /> <!-- Name of this rv7fm -->
+  <xacro:arg name="slowdown" default="2.0" />
+  <xacro:arg name="robot_ip_1" default="127.0.0.1" />
+  <xacro:arg name="robot_ip_2" default="127.0.0.1" />
+  <xacro:arg name="gripper_ip" default="127.0.0.1" />
+  <xacro:arg name="hand" default="true" />
+  <xacro:arg name="attached_object" default="true" />
+
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0" />
+  </material>
+
+  <material name="transparent">
+    <color rgba="0.5 0.5 0.5 0.5" />
+  </material>
+
+  <xacro:include filename="$(find rv7fm_description)/urdf/rv7fm.xacro" />
+  <xacro:include filename="$(find rv7fm_description)/urdf/hand.xacro" />
+  <xacro:include filename="$(find rv7fm_description)/urdf/attached_object.xacro" />
+
+  <!-- Import RV7FM ros2_control description -->
+  <xacro:include filename="$(find rv7fm_description)/ros2_control/rv7fm_system_position_only.ros2_control.xacro" />
+  <xacro:include filename="$(find rv7fm_description)/ros2_control/gripper_system_multi_interface.ros2_control.xacro" />
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.9445" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://rv7fm_description/meshes/rv7fm/visual/cell_assembly.stl" />
+      </geometry>
+      <material name="transparent" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.9445" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://rv7fm_description/meshes/rv7fm/collision/cell_assembly.stl" />
+      </geometry>
+      <material name="transparent" />
+    </collision>
+  </link>
+
+  <!-- left arm with gripper -->
+  <xacro:rv7fm arm_id="$(arg prefix_1)" connected_to="base_link" xyz="0 0 0.9445" safety_distance="0.03" />
+  <xacro:hand ns="$(arg prefix_1)" rpy="0 0 0" connected_to="$(arg prefix_1)_link6" safety_distance="0.03" />
+
+  <!-- right arm with gripper -->
+  <xacro:rv7fm arm_id="$(arg prefix_2)" connected_to="base_link" xyz="1.540 0 0.9445" rpy="0 0 ${pi}" safety_distance="0.03" />
+  <xacro:hand ns="$(arg prefix_2)" rpy="0 0 0" connected_to="$(arg prefix_2)_link6" safety_distance="0.03" />
+  <xacro:unless value="$(arg attached_object)">
+    <xacro:attached_object ns="$(arg prefix_2)" xyz="-0.22 0 0.1" rpy="1.5707963 0 0" connected_to="$(arg prefix_2)_gripper_tcp" />
+  </xacro:unless>
+
+
+  <xacro:rv7fm_system_position_only name="$(arg prefix_1)_RV7FMSystemPositionOnly" prefix="$(arg prefix_1)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)" slowdown="$(arg slowdown)" robot_ip="$(arg robot_ip_1)" />
+  <xacro:rv7fm_system_position_only name="$(arg prefix_2)_RV7FMSystemPositionOnly" prefix="$(arg prefix_2)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)" slowdown="$(arg slowdown)" robot_ip="$(arg robot_ip_2)" />
+  <xacro:gripper_system_multi_interface name="GripperSystemMultiInterface" prefix="$(arg prefix_1)" prefix_2="$(arg prefix_2)" use_fake_hardware="$(arg use_fake_hardware)" fake_sensor_commands="$(arg fake_sensor_commands)" slowdown="$(arg slowdown)" gripper_ip="$(arg gripper_ip)" />
+</robot>
