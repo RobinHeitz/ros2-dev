@@ -9,7 +9,18 @@
 		"dockerfile": "../Dockerfile"
 	},
 
-	"runArgs": ["--name", "ros-dev"]
+	"runArgs": [
+		"--name",
+		"ros-dev"
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"sweilz.ros-snippets",
+				"smilerobotics.urdf"
+			]
+		}
+	}
 
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
