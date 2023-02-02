@@ -1,0 +1,40 @@
+launch:
+
+- arg:
+    name: "urdf_file"
+    default: "rv7fm_cell.urdf.xacro"
+- arg:
+    name: "urdf_package"
+    default: "rv7fm_description"
+
+  
+# - node:
+#     pkg: joint_state_publisher
+#     exec: joint_state_publisher
+#     name: joint_state_publisher
+#     namespace: joint_state_publisher
+    # param:
+    #   - name: background_r
+    #     value: $(var background_r)
+    #   - name: background_g
+    #     value: $(var background_g)
+    #   - name: background_b
+    #     value: $(var background_b)
+
+
+# - node:
+#     pkg: foxglove_bridge
+#     exec: foxglove_bridge
+#     name: foxglove_bridge
+#     namespace: foxglove_bridge
+
+- node:
+    pkg: robot_state_publisher
+    exec: robot_state_publisher
+    name: robot_state_publisher
+    namespace: robot_state_publisher
+    param:
+      - name: robot_description
+        value: rv7fm_control/urdf/test.urdf
+
+
