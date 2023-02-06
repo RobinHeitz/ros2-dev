@@ -5,7 +5,7 @@ import os
 
 def generate_launch_description():
     pkg_share = launch_ros.substitutions.FindPackageShare(package='igus_rebel_description').find('igus_rebel_description')
-    default_model_path = os.path.join(pkg_share, 'urdf/igus_rebel.urdf')
+    default_model_path = os.path.join(pkg_share, 'urdf/rebel.urdf')
 
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',

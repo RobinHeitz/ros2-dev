@@ -7,13 +7,24 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclpy REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+# Install Python modules
+# ament_python_install_package(${PROJECT_NAME})
+
 install(
   DIRECTORY src launch include meshes urdf
   DESTINATION share/${PROJECT_NAME}
+
+)
+
+install(PROGRAMS
+  src/mesh_publisher.py
+  src/__init__.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
