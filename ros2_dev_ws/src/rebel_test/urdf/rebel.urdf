@@ -4,7 +4,7 @@
   <link name="world">
     <visual>
         <geometry>
-          <mesh filename="package://rebel_test/meshes/test.dae" />
+          <mesh filename="package://rebel_test/meshes/test.stl" />
         </geometry>
     </visual>
     
@@ -15,7 +15,7 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <cylinder radius="0.2" length="1.5"/>
+          <mesh filename="package://rebel_test/meshes/test.dae" />
        
       </geometry>
     </visual>
